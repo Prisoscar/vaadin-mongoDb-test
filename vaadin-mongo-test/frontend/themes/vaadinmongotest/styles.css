@@ -31,3 +31,19 @@
     [theme~="dark"] {
 
     }
+
+    #mainLayout{
+        z-index: 1;
+    }
+
+    #subFooterDiv{
+        position: fixed;
+        bottom: 0;
+        min-height: 100%;
+        z-index: -1;
+    }
+
+    #contentDiv{
+        background: white;
+        width: 100%;
+    }

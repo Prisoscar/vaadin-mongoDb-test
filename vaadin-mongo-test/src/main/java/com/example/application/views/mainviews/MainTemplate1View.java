@@ -33,11 +33,20 @@ public class MainTemplate1View extends Composite<Div> implements RouterLayout {
         /*sayHello.addClickListener(e -> {
             Notification.show("Hello " + name.getValue());
         });*/
-        layout.setSizeFull();
-        layout.setWidthFull();
         layout.setPadding(false);
+        layout.setHeightFull();
+        layout.setId("mainLayout");
+        content.setId("contentDiv");
         getContent().add(layout);
+        getContent().add(createSubFooter());
 
+    }
+
+    private Component createSubFooter() {
+        VerticalLayout subFooter = new VerticalLayout();
+        subFooter.getThemeList().set("dark", true);
+        subFooter.setId("subFooterDiv");
+        return subFooter;
     }
 
     @Override
@@ -58,7 +67,6 @@ public class MainTemplate1View extends Composite<Div> implements RouterLayout {
         footer.setWidthFull();
         footer.setAlignItems(FlexComponent.Alignment.CENTER);
         footer.add(new Paragraph("P.Iva: 00000000000"));
-
         return footer;
     }
 
