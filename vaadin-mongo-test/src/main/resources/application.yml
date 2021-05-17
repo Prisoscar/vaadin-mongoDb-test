@@ -1,0 +1,20 @@
+    
+logging:
+  level:
+    org:
+      atmosphere: warn
+server:
+  port: ${PORT:8080}
+spring:
+  mustache:
+    check-template-location: false
+    
+  data:
+    mongodb:
+      database: vaadin-mongo-test
+      host: localhost  
+  servlet:
+    multipart:
+      max-file-size: 100000000
+      max-request-size: 100000000
+    
