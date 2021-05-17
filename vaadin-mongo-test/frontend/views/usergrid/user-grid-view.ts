@@ -13,7 +13,9 @@ export class UserGridView extends LitElement {
 
   render() {
     return html`<vaadin-grid id = "userGrid">
-<!--vaadin-grid-column></vaadin-grid-column--!>
+<vaadin-grid-column></vaadin-grid-column>
+<vaadin-grid-column></vaadin-grid-column>
+<vaadin-grid-column></vaadin-grid-column>
 </vaadin-grid>
 <br><br>
 <h3>Agiungi Utente</h3>
@@ -21,7 +23,7 @@ export class UserGridView extends LitElement {
 	<vaadin-text-field id="username" label="username" type = "text" required></vaadin-text-field>
 	<vaadin-password-field id="password" label="password" type = "password" required></vaadin-password-field>
 	<vaadin-text-field id="name" label="name" type = "text" required></vaadin-text-field>
-    <vaadin-text-field id="eta" label="eta" type = "number" required></vaadin-text-field>
+    <vaadin-number-field id="eta" label="eta" type = "number" required></vaadin-number-field>
 </vaadin-form-layout>
 <vaadin-button id = "aggiungiUtente">Aggiungi Utente</vaadin-button>
 `;
