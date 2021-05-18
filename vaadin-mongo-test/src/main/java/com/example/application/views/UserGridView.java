@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.application.data.document.UserDocument;
 import com.example.application.service.UserService;
+import com.example.application.views.mainviews.GridView;
 import com.example.application.views.mainviews.MainTemplate1View;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
@@ -21,7 +22,7 @@ import com.vaadin.flow.router.Route;
 
 import javax.annotation.PostConstruct;
 
-@Route(value = "userGrid", layout = MainTemplate1View.class)
+@Route(value = "userGrid", layout = GridView.class)
 @PageTitle("User Grid")
 @Tag("user-grid-view")
 @JsModule("./views/usergrid/user-grid-view.ts")
@@ -30,8 +31,6 @@ public class UserGridView extends LitTemplate {
 	@Autowired
 	private UserService userservice;
 
-	@Id
-	private Grid<UserDocument> userGrid = new Grid<>(UserDocument.class);
 	@Id
 	private TextField username;
 	@Id
@@ -47,7 +46,7 @@ public class UserGridView extends LitTemplate {
 	@PostConstruct
 	public void init(){
 		try {
-			getElements();
+			GridView.populateGrid(userservice.getAll());
 		} catch (NullPointerException e) {
 			Notification.show("NullPointerException");
 		}
@@ -64,17 +63,17 @@ public class UserGridView extends LitTemplate {
 			userservice.add(new UserDocument(username.getValue(), password.getValue(), name.getValue(), eta.getValue().intValue()));
 			Notification.show("Utente Aggiunto", 2500, Position.MIDDLE);
 			clearForm();
-			getElements();
+			GridView.populateGrid(userservice.getAll());
 		});
 	}
 
-	private void getElements() {
+	/*private void getElements() {
 		System.out.println("Try to get Elements");
 		userGrid.addColumn(UserDocument::getUsername);
 		userGrid.addColumn(UserDocument::getNome);
 		userGrid.addColumn(UserDocument::getEta);
 		userGrid.setItems(userservice.getAll());
-	}
+	}*/
 	
 	private void clearForm() {
         username.setValue("");

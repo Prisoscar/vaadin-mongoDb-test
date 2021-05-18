@@ -12,12 +12,8 @@ export class UserGridView extends LitElement {
   }
 
   render() {
-    return html`<vaadin-grid id = "userGrid">
-<vaadin-grid-column></vaadin-grid-column>
-<vaadin-grid-column></vaadin-grid-column>
-<vaadin-grid-column></vaadin-grid-column>
-</vaadin-grid>
-<br><br>
+    return html`
+<br>
 <h3>Agiungi Utente</h3>
 	<vaadin-form-layout id = "aggiungiUtenteForm"> 
 	<vaadin-text-field id="username" label="username" type = "text" required></vaadin-text-field>

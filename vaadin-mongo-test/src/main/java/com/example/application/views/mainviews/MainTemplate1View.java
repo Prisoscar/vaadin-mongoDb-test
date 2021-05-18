@@ -25,35 +25,34 @@ import java.util.Objects;
 public class MainTemplate1View extends Composite<Div> implements RouterLayout {
 
     //https://vaadin.com/learn/tutorials/nested-layouts-in-flow
-    private Div content = new Div();
+    protected Div content = new Div();
     private Button menuButton = new Button("Menu");
     private boolean visible = true;
+    protected VerticalLayout headerPlusBodyLayout = new VerticalLayout(
+            createHeader(),
+            content
+            );
+    protected HorizontalLayout navMenuPlusHeaderPlusBodyLayout = new HorizontalLayout(
+    		createNavigationMenu(),
+    		headerPlusBodyLayout
+    		);
+    protected VerticalLayout mainLayout = new VerticalLayout(
+    		navMenuPlusHeaderPlusBodyLayout,
+    		createFooter()
+    		);
 
     public MainTemplate1View() {
     	System.out.println("Constructor called");
-    	VerticalLayout headerPlusBodyLayout = new VerticalLayout(
-                createHeader(),
-                content
-                );
-    	headerPlusBodyLayout.setPadding(false);
-    	headerPlusBodyLayout.setAlignItems(Alignment.START);
-    	HorizontalLayout navMenuPlusHeaderPlusBodyLayout = new HorizontalLayout(
-        		createNavigationMenu(),
-        		headerPlusBodyLayout
-        		);
     	
+    	headerPlusBodyLayout.setPadding(false);
+    	headerPlusBodyLayout.setAlignItems(Alignment.START); 	
     	menuButton.addClickListener(click -> {
     		visible = !visible;
     		navMenuPlusHeaderPlusBodyLayout.getComponentAt(0).setVisible(visible);
-    	});
-    	
+    	});    	
     	navMenuPlusHeaderPlusBodyLayout.setPadding(false);
     	navMenuPlusHeaderPlusBodyLayout.setAlignItems(Alignment.START);
-    	navMenuPlusHeaderPlusBodyLayout.setId("navMenuPlusHeaderPlusBodyLayout");
-        VerticalLayout mainLayout = new VerticalLayout(
-        		navMenuPlusHeaderPlusBodyLayout,
-        		createFooter()
-        		);
+    	navMenuPlusHeaderPlusBodyLayout.setId("navMenuPlusHeaderPlusBodyLayout");        
         headerPlusBodyLayout.setPadding(false);
         navMenuPlusHeaderPlusBodyLayout.setWidthFull();
         mainLayout.setPadding(false);
@@ -100,7 +99,6 @@ public class MainTemplate1View extends Composite<Div> implements RouterLayout {
 
 	@Override
     public void showRouterLayoutContent(HasElement hasElement) {
-        //System.out.println("showRouterLayoutContent - MainLayout");
         Objects.requireNonNull(hasElement);
         Objects.requireNonNull(hasElement.getElement());
         content.removeAll();
@@ -109,7 +107,6 @@ public class MainTemplate1View extends Composite<Div> implements RouterLayout {
 
     private Component createFooter() {
         HorizontalLayout footer = new HorizontalLayout();
-        //Footer footer = new Footer();
         footer.setId("footer");
         footer.setSizeFull();
         footer.getThemeList().set("dark", true);
@@ -126,11 +123,9 @@ public class MainTemplate1View extends Composite<Div> implements RouterLayout {
         header.setSizeFull();
         header.getThemeList().set("dark", true);
         header.setWidthFull();
-        //header.setSpacing(false);
         header.setAlignItems(FlexComponent.Alignment.CENTER);
         header.add(menuButton);
         header.add(new H1("Test UI"));
-        //header.setPadding(false);
         return header;
     }
 }
