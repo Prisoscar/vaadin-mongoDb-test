@@ -24,4 +24,9 @@ public class UserServiceImpl implements UserService{
 	public List<UserDocument> getAll() {
 		return repo.findAll();
 	}
+
+	@Override
+	public void delete(UserDocument user) {
+		repo.delete(user);
+	}
 }

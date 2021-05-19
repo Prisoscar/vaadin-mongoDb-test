@@ -1,7 +1,13 @@
 package com.example.application.data.abstractDocument;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class AbstractUser extends AbstractDocument {
+	
+	@Size(min = 3, max = 20, message = "Username should contain between 3 and 20 characters")
 	private String username;
+	@Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}")
 	private String password;
 
 	public AbstractUser() {

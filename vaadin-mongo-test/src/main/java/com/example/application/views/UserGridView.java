@@ -14,9 +14,11 @@ import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.template.Id;
+import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -38,29 +40,35 @@ public class UserGridView extends LitTemplate {
 	@Id
 	private TextField name;
 	@Id
-	private NumberField eta;
+	private IntegerField eta;
 
 	@Id
 	private Button aggiungiUtente;
 
+	Binder<UserDocument> userBinder = new Binder<>();
+	
 	@PostConstruct
 	public void init(){
-		try {
+		/*try {
 			GridView.populateGrid(userservice.getAll());
 		} catch (NullPointerException e) {
 			Notification.show("NullPointerException");
-		}
+		}*/
+		userBinder.forField(username).bind(UserDocument::getUsername, UserDocument::setUsername);
+		userBinder.forField(password).bind(UserDocument::getPassword, UserDocument::setPassword);
+		userBinder.forField(eta).bind(UserDocument::getEta, UserDocument::setEta);
 		aggiungiUtente.addClickListener(click -> {
-			if (username.getValue().equals("") || password.getValue().equals("") || name.getValue().equals("null") || eta.getValue() == null){
+			/*if (username.getValue().equals("") || password.getValue().equals("") || name.getValue().equals("") || eta.getValue() == null){
 				Notification.show("Insert all values", 1500, Position.MIDDLE);
 				return;
+			}*/
+			try {
+
+				//userBinder.validate();
+			} catch (Exception e) {
+				Notification.show("Errore sopraggiunto", 2500, Position.MIDDLE);
 			}
-			if (eta.getValue() % 1 != 0){
-				Notification.show("Invalid Age");
-				System.out.println(eta.getValue());
-				return;
-			}
-			userservice.add(new UserDocument(username.getValue(), password.getValue(), name.getValue(), eta.getValue().intValue()));
+			userservice.add(userBinder.getBean());
 			Notification.show("Utente Aggiunto", 2500, Position.MIDDLE);
 			clearForm();
 			GridView.populateGrid(userservice.getAll());
@@ -76,10 +84,11 @@ public class UserGridView extends LitTemplate {
 	}*/
 	
 	private void clearForm() {
-        username.setValue("");
+       /* username.setValue("");
         password.setValue("");
         name.setValue("");
-        eta.setValue(null);
+        eta.setValue(null);*/
+		userBinder.removeBean();
     }
 
 }
