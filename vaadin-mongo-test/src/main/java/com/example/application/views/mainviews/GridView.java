@@ -51,7 +51,7 @@ public class GridView extends MainTemplate1View {
 		headerPlusBodyLayout.addComponentAtIndex(1, userGrid);
 		userGrid.setId("userGrid");
 		headerPlusBodyLayout.addComponentAtIndex(1, new H3("User Grid"));
-		// don't know yet
+		//connect editor to bind and set save button behavior
 		editor.setBinder(binder);
 		editor.setBuffered(true);
 		editor.addSaveListener(event -> {

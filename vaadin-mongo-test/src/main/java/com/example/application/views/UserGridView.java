@@ -45,7 +45,8 @@ public class UserGridView extends LitTemplate {
 	@Id
 	private Button aggiungiUtente;
 
-	Binder<UserDocument> userBinder = new Binder<>();
+	//check https://vaadin.com/docs/latest/fusion/forms/binder-validation
+	Binder<UserDocument> userBinder = new Binder<>(UserDocument.class);
 	
 	@PostConstruct
 	public void init(){
@@ -54,20 +55,24 @@ public class UserGridView extends LitTemplate {
 		} catch (NullPointerException e) {
 			Notification.show("NullPointerException");
 		}*/
-		userBinder.forField(username).bind(UserDocument::getUsername, UserDocument::setUsername);
-		userBinder.forField(password).bind(UserDocument::getPassword, UserDocument::setPassword);
-		userBinder.forField(eta).bind(UserDocument::getEta, UserDocument::setEta);
 		aggiungiUtente.addClickListener(click -> {
 			/*if (username.getValue().equals("") || password.getValue().equals("") || name.getValue().equals("") || eta.getValue() == null){
 				Notification.show("Insert all values", 1500, Position.MIDDLE);
 				return;
 			}*/
+			userBinder.forField(username).bind(UserDocument::getUsername, UserDocument::setUsername);
+			userBinder.forField(name).bind(UserDocument::getNome, UserDocument::setNome);
+			userBinder.forField(password).bind(UserDocument::getPassword, UserDocument::setPassword);
+			userBinder.forField(eta).bind(UserDocument::getEta, UserDocument::setEta);
+			/*userBinder.getFields().forEach(userBinder.);
+			userBinder.writeBeanIfValid(new UserDocument(userBinder.bind("username")))*/
 			try {
 
-				//userBinder.validate();
+				userBinder.validate();
 			} catch (Exception e) {
 				Notification.show("Errore sopraggiunto", 2500, Position.MIDDLE);
 			}
+			System.out.println(userBinder.getBean().getUsername() + userBinder.getBean().getNome());
 			userservice.add(userBinder.getBean());
 			Notification.show("Utente Aggiunto", 2500, Position.MIDDLE);
 			clearForm();

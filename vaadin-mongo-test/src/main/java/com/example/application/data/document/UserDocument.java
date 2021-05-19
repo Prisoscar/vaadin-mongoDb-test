@@ -5,6 +5,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
 
 import com.example.application.data.abstractDocument.AbstractUser;
 
