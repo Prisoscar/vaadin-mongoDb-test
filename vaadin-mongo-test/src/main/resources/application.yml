@@ -11,8 +11,9 @@ spring:
     
   data:
     mongodb:
-      database: vaadin-mongo-test
-      host: localhost  
+      #database: vaadin-mongo-test
+      #host: localhost
+      uri: mongodb://localhost:27017/vaadin-mongo-test?retryWrites=true
   servlet:
     multipart:
       max-file-size: 100000000

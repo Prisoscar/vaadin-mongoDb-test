@@ -5,7 +5,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.stereotype.Component;
 
 import com.example.application.data.abstractDocument.AbstractUser;
 
@@ -22,12 +21,14 @@ public class UserDocument extends AbstractUser{
 		super();
 	}
 	
-	public UserDocument(String username, String password, String nome, int eta) {
-		super(username, password);
+	public UserDocument(
+			@Size(min = 3, max = 20, message = "Name should contain between 3 and 20 characters") String nome,
+			@Min(value = 18, message = "age should be at least 18") @Max(value = 100, message = "age should be at most 100") int eta) {
+		super();
 		this.nome = nome;
 		this.eta = eta;
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
@@ -42,7 +43,5 @@ public class UserDocument extends AbstractUser{
 	
 	public void setEta(int eta) {
 		this.eta = eta;
-	}
-
-	
+	}	
 }
