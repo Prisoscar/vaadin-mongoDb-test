@@ -5,10 +5,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.stereotype.Component;
 
 import com.example.application.data.abstractDocument.AbstractDocument;
-import com.example.application.data.abstractDocument.AbstractUser;
 
 @Document(collection = "company_document")
 public class CompanyDocument extends AbstractDocument{

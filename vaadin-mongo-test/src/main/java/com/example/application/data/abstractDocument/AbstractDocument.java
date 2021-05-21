@@ -3,11 +3,13 @@ package com.example.application.data.abstractDocument;
 import java.util.Date;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.domain.Persistable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AbstractDocument implements Persistable<String> {
 
 	public enum STATUS {
@@ -28,11 +30,27 @@ public class AbstractDocument implements Persistable<String> {
 		return createdDate;
 	}
 
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
 	@LastModifiedDate
 	private Date lastModifiedDate;
 
 	public String getUuid() {
 		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 	public STATUS getRecordStatus() {
@@ -45,6 +63,10 @@ public class AbstractDocument implements Persistable<String> {
 
 	public Date getLastModifiedDate() {
 		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
 	}
 
 	@Override

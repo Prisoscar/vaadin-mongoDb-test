@@ -1,8 +1,15 @@
 package com.example.application.serviceImplementation;
 
+import com.example.application.data.codec.CompanyDocumentCodec;
+import com.example.application.data.codec.UserDocumentCodec;
+import com.mongodb.*;
+import com.mongodb.client.ClientSession;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.application.data.document.CompanyDocument;
 import com.example.application.data.document.UserDocument;
@@ -29,14 +36,60 @@ public class CompanyServiceImpl implements CompanyService{
 		companyRepository.delete(company);
 	}
 
-	@Transactional
+	//@Transactional
 	@Override
 	public UserCompanyDto transational(UserCompanyDto pair) {
-		UserDocument user = userRepository.save(pair.getUser());
-		user.setNome("a");
-		userRepository.save(user);
-		//CompanyDocument company = companyRepository.save(pair.getCompany());
-		return new UserCompanyDto(user, new CompanyDocument());
+		UserDocument user = pair.getUser();
+		CompanyDocument company = pair.getCompany();
+
+		user.isNew();
+		company.isNew();
+
+		MongoClientURI uri = new MongoClientURI("mongodb://localhost,localhost:27017");
+		MongoClient client = new MongoClient(uri);
+		MongoDatabase database = client.getDatabase("vaadin-mongo-test");
+		MongoCollection<Document> userCollection = database.getCollection("user_document");
+		MongoCollection<Document> companyCollection = database.getCollection("company_document");
+
+		UserDocumentCodec userDocumentCodec = new UserDocumentCodec();
+		CompanyDocumentCodec companyDocumentCodec = new CompanyDocumentCodec();
+
+		/*UserDocument gotUser = userDocumentCodec.toObject(userCollection.find().first());
+		Document doc = userDocumentCodec.toDocument(gotUser);
+		System.out.println(doc.toJson());
+		System.out.println(UserDocument.class);*/
+		/*try {
+			var a = UserDocument.class.getDeclaredConstructor().newInstance();
+			System.out.println("Qui il mio oggetto");
+			System.out.println(a.toString());
+		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+			e.printStackTrace();
+		}*/
+		/*
+		System.out.println("jyhfgufyyuf");
+		System.out.println(userCollection.countDocuments());
+		//System.out.println(userCollection.find().first());
+		CodecProvider pojoCodecProvider = PojoCodecProvider.builder().automatic(true).build();
+		CodecRegistry pojoCodecRegistry = fromRegistries(defaultCodecRegistry, fromProviders(pojoCodecProvider));
+		//CodecRegistry pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
+		//		fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+		CodecRegistry comExampleCustomCodecRegistry = CodecRegistries.fromCodecs(new CompanyDocumentCodec(pojoCodecRegistry), new UserDocumentCodec(pojoCodecRegistry));
+		companyCollection.withCodecRegistry(comExampleCustomCodecRegistry);
+		userCollection.withCodecRegistry(comExampleCustomCodecRegistry);
+
+
+		/*Block<UserDocument> printUser = System.out::println;
+		userCollection.find().forEach(printUser);*/
+
+		//System.out.println("first user found: " + userCollection.find(UserDocument.class).first());
+
+		try (ClientSession clientSession = client.startSession()){
+			clientSession.startTransaction();
+			userCollection.insertOne(clientSession, userDocumentCodec.toDocument(user));
+			companyCollection.insertOne(clientSession, companyDocumentCodec.toDocument(company));
+			clientSession.commitTransaction();
+		}
+		return new UserCompanyDto(user, company);
 	}
 
 	

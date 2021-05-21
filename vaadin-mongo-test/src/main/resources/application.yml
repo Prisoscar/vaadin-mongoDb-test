@@ -13,7 +13,8 @@ spring:
     mongodb:
       #database: vaadin-mongo-test
       #host: localhost
-      uri: mongodb://localhost:27017/vaadin-mongo-test?retryWrites=true
+      uri: mongodb://localhost:27017/vaadin-mongo-test
+      #uri: mongodb://localhost:2717,localhost:2727,localhost:2737/?replicaSet=myRepl
   servlet:
     multipart:
       max-file-size: 100000000
