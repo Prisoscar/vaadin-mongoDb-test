@@ -39,7 +39,7 @@ public class CompanyServiceImpl implements CompanyService{
 
 	@Transactional
 	@Override
-	public UserCompanyDto transational(UserCompanyDto pair) {
+	public UserCompanyDto transactional(UserCompanyDto pair) {
 
 		UserCompanyDto resultPair = new UserCompanyDto();
 		resultPair.setUser(userRepository.save(pair.getUser()));

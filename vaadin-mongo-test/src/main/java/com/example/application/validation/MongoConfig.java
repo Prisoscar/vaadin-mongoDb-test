@@ -11,23 +11,33 @@ import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Configuration
-public class MongoConfig extends AbstractMongoClientConfiguration {
+public class MongoConfig /*extends AbstractMongoClientConfiguration */{
 
 	/*@Bean
     public ReactiveMongoTransactionManager reactiveMongoTransactionManager() {
         return new ReactiveMongoTransactionManager(reactiveMongoDbFactory());
     }*/
+
+	//enable transactional operations
 	@Bean
 	MongoTransactionManager transactionManager(MongoDatabaseFactory dbFactory) {
 		return new MongoTransactionManager(dbFactory);
 	}
 
+	//validate database insertions
+	@Bean
+	public ValidatingMongoEventListener validatingMongoEventListener(LocalValidatorFactoryBean factory) {
+		return new ValidatingMongoEventListener(factory);
+	}
+/*
 	@Override
 	protected String getDatabaseName() {
 		return "vaadin-mongo-test";
-	}
+	}*/
 /*
 	@Override
 	public MongoClient mongoClient() {

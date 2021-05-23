@@ -5,9 +5,9 @@ import com.example.application.dto.UserCompanyDto;
 
 public interface CompanyService {
 
-		public CompanyDocument add(CompanyDocument company);
+		CompanyDocument add(CompanyDocument company);
 		
-		public void delete(CompanyDocument company);
+		void delete(CompanyDocument company);
 		
-		public UserCompanyDto transational (UserCompanyDto obj);
+		UserCompanyDto transactional(UserCompanyDto obj);
 }

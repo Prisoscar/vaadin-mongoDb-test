@@ -6,10 +6,10 @@ import com.example.application.data.document.UserDocument;
 
 public interface UserService {
 	
-	public UserDocument add (UserDocument user);
+	UserDocument add(UserDocument user);
 	
-	public List<UserDocument> getAll();
+	List<UserDocument> getAll();
 	
-	public void delete(UserDocument user);
+	void delete(UserDocument user);
 
 }

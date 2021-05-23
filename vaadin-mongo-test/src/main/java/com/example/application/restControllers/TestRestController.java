@@ -63,25 +63,6 @@ public class TestRestController {
 
 	@RequestMapping(value = "transactionalBean", method = RequestMethod.PUT)
 	public UserCompanyDto transactionalBean (@RequestBody UserCompanyDto pair){
-		return companyService.transational(pair);
-	}
-
-	@RequestMapping(value = "transationalInsert", method = RequestMethod.PUT)
-	public UserCompanyDto transationalInsert(@RequestBody UserCompanyDto pair) {
-/*
-		System.out.println(pair.getUser().getNome());
-		try {
-			UserDocument user = userService.add(pair.getUser());
-			try {
-				CompanyDocument company = companyService.add(pair.getCompany());
-				return new UserCompanyDto(user, company);
-			} catch (Exception e) {
-				userService.delete(user);
-				throw new BadRequestException(e.getMessage() + "\nBad Companny!!!");
-			}
-		} catch (Exception e) {
-			throw new BadRequestException(e.getMessage() + "\nBad User!!!");
-		}*/
-		return companyService.transational(pair);
+		return companyService.transactional(pair);
 	}
 }

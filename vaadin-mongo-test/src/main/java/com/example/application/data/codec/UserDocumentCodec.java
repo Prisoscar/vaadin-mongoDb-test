@@ -2,7 +2,6 @@ package com.example.application.data.codec;
 
 import com.example.application.data.document.UserDocument;
 import org.bson.Document;
-import org.springframework.lang.Nullable;
 
 
 public class UserDocumentCodec<T extends UserDocument> extends AbstractUserCodec {
