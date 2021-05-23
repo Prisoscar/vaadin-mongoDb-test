@@ -61,6 +61,11 @@ public class TestRestController {
 		return "enqueued";
 	}
 
+	@RequestMapping(value = "transactionalBean", method = RequestMethod.PUT)
+	public UserCompanyDto transactionalBean (@RequestBody UserCompanyDto pair){
+		return companyService.transational(pair);
+	}
+
 	@RequestMapping(value = "transationalInsert", method = RequestMethod.PUT)
 	public UserCompanyDto transationalInsert(@RequestBody UserCompanyDto pair) {
 /*

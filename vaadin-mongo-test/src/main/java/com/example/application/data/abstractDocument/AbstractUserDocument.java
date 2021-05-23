@@ -10,8 +10,8 @@ public class AbstractUserDocument extends AbstractDocument {
 	
 	@Size(min = 3, max = 20, message = "Username should contain between 3 and 20 characters")
 	private String username;
-	@Size(min = 8, max = 20, message = "Password should contain between 8 and 20 characters")
-	@Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!?()£])", message = "Password must contain at least a digit, a lower case character, an upper case character")
+	//@Size(min = 8, max = 20, message = "Password should contain between 8 and 20 characters")
+	//@Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!?()£])", message = "Password must contain at least a digit, a lower case character, an upper case character")
 	private String password;
 
 	public AbstractUserDocument() {

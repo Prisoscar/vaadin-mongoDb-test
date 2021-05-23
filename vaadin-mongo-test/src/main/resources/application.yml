@@ -13,8 +13,9 @@ spring:
     mongodb:
       #database: vaadin-mongo-test
       #host: localhost
-      uri: mongodb://localhost:27017/vaadin-mongo-test
-      #uri: mongodb://localhost:2717,localhost:2727,localhost:2737/?replicaSet=myRepl
+      #uri: mongodb://localhost:27017/vaadin-mongo-test
+      #https://dev.to/damcosset/setting-up-a-replica-set-in-mongodb
+      uri: mongodb://localhost:27017,localhost:27018,localhost:27019/vaadin-mongo-test
   servlet:
     multipart:
       max-file-size: 100000000

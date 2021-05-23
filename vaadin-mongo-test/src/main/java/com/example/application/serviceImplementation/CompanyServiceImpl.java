@@ -17,6 +17,7 @@ import com.example.application.dto.UserCompanyDto;
 import com.example.application.repo.CompanyRepository;
 import com.example.application.repo.UserRepository;
 import com.example.application.service.CompanyService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CompanyServiceImpl implements CompanyService{
@@ -36,23 +37,36 @@ public class CompanyServiceImpl implements CompanyService{
 		companyRepository.delete(company);
 	}
 
-	//@Transactional
+	@Transactional
 	@Override
 	public UserCompanyDto transational(UserCompanyDto pair) {
-		UserDocument user = pair.getUser();
-		CompanyDocument company = pair.getCompany();
 
-		user.isNew();
-		company.isNew();
+		UserCompanyDto resultPair = new UserCompanyDto();
+		resultPair.setUser(userRepository.save(pair.getUser()));
+		resultPair.setCompany(companyRepository.save(pair.getCompany()));
 
-		MongoClientURI uri = new MongoClientURI("mongodb://localhost,localhost:27017");
-		MongoClient client = new MongoClient(uri);
-		MongoDatabase database = client.getDatabase("vaadin-mongo-test");
-		MongoCollection<Document> userCollection = database.getCollection("user_document");
-		MongoCollection<Document> companyCollection = database.getCollection("company_document");
 
-		UserDocumentCodec userDocumentCodec = new UserDocumentCodec();
-		CompanyDocumentCodec companyDocumentCodec = new CompanyDocumentCodec();
+
+
+
+
+
+
+
+//		UserDocument user = pair.getUser();
+//		CompanyDocument company = pair.getCompany();
+//
+//		user.isNew();
+//		company.isNew();
+//
+//		MongoClientURI uri = new MongoClientURI("mongodb://localhost,localhost:27017");
+//		MongoClient client = new MongoClient(uri);
+//		MongoDatabase database = client.getDatabase("vaadin-mongo-test");
+//		MongoCollection<Document> userCollection = database.getCollection("user_document");
+//		MongoCollection<Document> companyCollection = database.getCollection("company_document");
+//
+//		UserDocumentCodec userDocumentCodec = new UserDocumentCodec();
+//		CompanyDocumentCodec companyDocumentCodec = new CompanyDocumentCodec();
 
 		/*UserDocument gotUser = userDocumentCodec.toObject(userCollection.find().first());
 		Document doc = userDocumentCodec.toDocument(gotUser);
@@ -83,13 +97,13 @@ public class CompanyServiceImpl implements CompanyService{
 
 		//System.out.println("first user found: " + userCollection.find(UserDocument.class).first());
 
-		try (ClientSession clientSession = client.startSession()){
-			clientSession.startTransaction();
-			userCollection.insertOne(clientSession, userDocumentCodec.toDocument(user));
-			companyCollection.insertOne(clientSession, companyDocumentCodec.toDocument(company));
-			clientSession.commitTransaction();
-		}
-		return new UserCompanyDto(user, company);
+//		try (ClientSession clientSession = client.startSession()){
+//			clientSession.startTransaction();
+//			userCollection.insertOne(clientSession, userDocumentCodec.toDocument(user));
+//			companyCollection.insertOne(clientSession, companyDocumentCodec.toDocument(company));
+//			clientSession.commitTransaction();
+//		}
+		return resultPair;
 	}
 
 	

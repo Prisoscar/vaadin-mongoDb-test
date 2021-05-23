@@ -13,13 +13,13 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 
 @Configuration
-public class MongoConfig /*extends AbstractMongoClientConfiguration*/ {
+public class MongoConfig extends AbstractMongoClientConfiguration {
 
 	/*@Bean
     public ReactiveMongoTransactionManager reactiveMongoTransactionManager() {
         return new ReactiveMongoTransactionManager(reactiveMongoDbFactory());
     }*/
-	/*@Bean
+	@Bean
 	MongoTransactionManager transactionManager(MongoDatabaseFactory dbFactory) {
 		return new MongoTransactionManager(dbFactory);
 	}
@@ -28,7 +28,7 @@ public class MongoConfig /*extends AbstractMongoClientConfiguration*/ {
 	protected String getDatabaseName() {
 		return "vaadin-mongo-test";
 	}
-
+/*
 	@Override
 	public MongoClient mongoClient() {
 		final ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017/vaadin-mongo-test?retryWrites=false");
