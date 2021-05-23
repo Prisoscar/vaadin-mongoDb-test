@@ -15,6 +15,9 @@ spring:
       #host: localhost
       #uri: mongodb://localhost:27017/vaadin-mongo-test
       #https://dev.to/damcosset/setting-up-a-replica-set-in-mongodb
+      #mongod --port 27017 --dbpath ~/mongodb/rs0 --replSet rs0 --oplogSize 128 --logpath ~/mongodb/log/rs0/server.log --fork
+      #mongod --port 27018 --dbpath ~/mongodb/rs1 --replSet rs0 --oplogSize 128 --logpath ~/mongodb/log/rs1/server.log --fork
+      #mongod --port 27019 --dbpath ~/mongodb/rs2 --replSet rs0 --oplogSize 128 --logpath ~/mongodb/log/rs2/server.log --fork
       uri: mongodb://localhost:27017,localhost:27018,localhost:27019/vaadin-mongo-test
   servlet:
     multipart:

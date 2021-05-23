@@ -7,6 +7,8 @@ import java.util.WeakHashMap;
 
 import javax.annotation.PostConstruct;
 
+import com.example.application.data.abstractDocument.AbstractUserDocument;
+import com.vaadin.flow.component.notification.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.application.data.document.UserDocument;
@@ -28,7 +30,7 @@ public class GridView extends MainTemplate1View {
 
 	private static Grid<UserDocument> userGrid = new Grid<>();
 	private Editor<UserDocument> editor = userGrid.getEditor();
-	private Binder<UserDocument> binder = new Binder<>();
+	private Binder<UserDocument> binder = new Binder<>(UserDocument.class);
 	private Grid.Column<UserDocument> usernameColumn;
 	private Grid.Column<UserDocument> nameColumn;
 	private Grid.Column<UserDocument> ageColumn;
@@ -53,8 +55,9 @@ public class GridView extends MainTemplate1View {
 		editor.setBinder(binder);
 		editor.setBuffered(true);
 		editor.addSaveListener(event -> {
-			userService.add(event.getItem());
-			populateGrid();
+			if (!binder.isValid()) Notification.show("Invalid input", 2500, Notification.Position.MIDDLE);
+				userService.add(event.getItem());
+				populateGrid();
 		});
 		// initialize grid columns
 		initializeGrid();
@@ -83,9 +86,9 @@ public class GridView extends MainTemplate1View {
 		Div buttons = new Div(save, cancel);
 		editColumn.setEditorComponent(buttons);
 
-		binder.forField(usernameField).bind(UserDocument::getUsername, UserDocument::setUsername);
-		binder.forField(nameField).bind(UserDocument::getNome, UserDocument::setNome);
-		binder.forField(ageField).bind(UserDocument::getEta, UserDocument::setEta);
+		binder.forField(usernameField).bind("username"/*UserDocument::getUsername, UserDocument::setUsername*/);
+		binder.forField(nameField).bind("nome"/*UserDocument::getNome, UserDocument::setNome*/);
+		binder.forField(ageField).bind("eta"/*UserDocument::getEta, UserDocument::setEta*/);
 	}
 
 	private Button createEditButton(UserDocument user) {
