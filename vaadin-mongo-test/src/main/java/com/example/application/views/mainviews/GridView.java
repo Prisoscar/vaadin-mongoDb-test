@@ -20,6 +20,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
 //example: https://vaadin.com/components/vaadin-grid/java-examples/grid-editor
@@ -30,7 +31,7 @@ public class GridView extends MainTemplate1View {
 
 	private static Grid<UserDocument> userGrid = new Grid<>();
 	private Editor<UserDocument> editor = userGrid.getEditor();
-	private Binder<UserDocument> binder = new Binder<>(UserDocument.class);
+	private BeanValidationBinder<UserDocument> binder = new BeanValidationBinder(UserDocument.class);
 	private Grid.Column<UserDocument> usernameColumn;
 	private Grid.Column<UserDocument> nameColumn;
 	private Grid.Column<UserDocument> ageColumn;

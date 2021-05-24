@@ -15,6 +15,7 @@ import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -43,7 +44,7 @@ public class UserGridView extends LitTemplate {
 	private Button aggiungiUtente;
 
 	//check https://vaadin.com/docs/latest/fusion/forms/binder-validation
-	Binder<UserDocument> userBinder = new Binder<>(UserDocument.class);
+	BeanValidationBinder<UserDocument> userBinder = new BeanValidationBinder(UserDocument.class);
 	
 	@PostConstruct
 	public void init(){
@@ -57,18 +58,18 @@ public class UserGridView extends LitTemplate {
 				Notification.show("Insert all values", 1500, Position.MIDDLE);
 				return;
 			}*/
-			userBinder.forField(username).bind(UserDocument::getUsername, UserDocument::setUsername);
-			userBinder.forField(name).bind(UserDocument::getNome, UserDocument::setNome);
-			userBinder.forField(password).bind(UserDocument::getPassword, UserDocument::setPassword);
-			userBinder.forField(eta).bind(UserDocument::getEta, UserDocument::setEta);
+			userBinder.bind(username, "username");
+			userBinder.bind(password, "password");
+			userBinder.bind(name, "nome");
+			userBinder.bind(eta, "eta");
 			/*userBinder.getFields().forEach(userBinder.);
 			userBinder.writeBeanIfValid(new UserDocument(userBinder.bind("username")))*/
-			try {
-
-				userBinder.validate();
-			} catch (Exception e) {
-				Notification.show("Errore sopraggiunto", 2500, Position.MIDDLE);
+			if (userBinder.validate().hasErrors()) {
+				Notification.show("Esecuzione Interrotta", 2000, Position.MIDDLE);
+				return;
 			}
+			//System.out.println(userBinder.getBean().getUsername() + userBinder.getBean().getNome());
+			userBinder.setBean(new UserDocument(username.getValue(), password.getValue(), name.getValue(), eta.getValue()));
 			System.out.println(userBinder.getBean().getUsername() + userBinder.getBean().getNome());
 			userservice.add(userBinder.getBean());
 			Notification.show("Utente Aggiunto", 2500, Position.MIDDLE);
@@ -76,14 +77,6 @@ public class UserGridView extends LitTemplate {
 			GridView.populateGrid(userservice.getAll());
 		});
 	}
-
-	/*private void getElements() {
-		System.out.println("Try to get Elements");
-		userGrid.addColumn(UserDocument::getUsername);
-		userGrid.addColumn(UserDocument::getNome);
-		userGrid.addColumn(UserDocument::getEta);
-		userGrid.setItems(userservice.getAll());
-	}*/
 	
 	private void clearForm() {
        /* username.setValue("");
